@@ -72,6 +72,6 @@ PUT http://localhost:5000/prices/1
 Content-Type: application/json
 
 {
-    "harga": 11000,
+    "harga": 12000,
     "provinsi": "kalimantan2"
 }

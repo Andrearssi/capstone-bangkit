@@ -35,10 +35,10 @@ export const getArticlesById = async (req, res) => {
 
 export const createArticle = async (req, res) => {
   const schema = {
-    judul: 'string',
-    author: 'string',
-    content: 'string',
-    image: 'string',
+    judul: { type: 'string', min: 3, max: 255 },
+    penulis: { type: 'string', min: 3, max: 255 },
+    konten: { type: 'string', min: 3, max: 255 },
+    image: { type: 'string', min: 3, max: 255 },
   };
   const validate = v.validate(req.body, schema);
   if (validate.length) {
@@ -56,14 +56,22 @@ export const updateArticle = async (req, res) => {
 
   if (!checkArticle) {
     return res.status(400).json({
-      message: 'Product not found',
+      message: 'Artikel tidak ditemukan',
     });
   }
   const schema = {
-    judul: 'string|optional',
-    author: 'string|optional',
-    content: 'string|optional',
-    image: 'string|optional',
+    judul: {
+      type: 'string', min: 3, max: 255, optional: true,
+    },
+    penulis: {
+      type: 'string', min: 3, max: 255, optional: true,
+    },
+    konten: {
+      type: 'string', min: 3, max: 255, optional: true,
+    },
+    image: {
+      type: 'string', min: 3, max: 255, optional: true,
+    },
   };
   const validate = v.validate(req.body, schema);
   if (validate.length) {
