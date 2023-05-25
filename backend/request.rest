@@ -1,0 +1,77 @@
+GET http://localhost:5000/users
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjE0LCJuYW1lIjoiQW5kcmVhIiwiZW1haWwiOiJlbWFpbDFAZ21haWwuY29tIiwiaWF0IjoxNjg0OTAwNDQ1LCJleHAiOjE2ODQ5MDA0NjB9.AppE_XpDLb5xblopepXPqyVJ0hxQ4EWvU8ZDKxC76CY
+###
+POST http://localhost:5000/users
+Content-Type: application/json
+
+{
+    "name": "Andrea",
+    "email": "email2@gmail.com",
+    "password": "123456",
+    "confPassword": "123456"
+}
+
+###
+
+POST http://localhost:5000/login
+Content-Type: application/json
+
+{
+    "email": "email1@gmail.com",
+    "password": "123456"
+}
+
+###
+GET http://localhost:5000/articles/
+
+###
+POST http://localhost:5000/articles
+Content-Type: application/json
+
+{
+    "judul": "hahaha",
+    "author": "andrea",
+    "content": "blablablabla",
+    "image": "bla.png"
+}
+
+###
+GET http://localhost:5000/articles/1
+
+###
+PUT http://localhost:5000/articles/3
+Content-Type: application/json
+
+{
+    "judul": "hahaha",
+    "author": "andrea",
+    "content": "blablablabla",
+    "image": "bla.png"
+}
+
+###
+DELETE http://localhost:5000/articles/1
+
+###
+GET http://localhost:5000/prices
+
+###
+GET http://localhost:5000/prices/3
+
+###
+POST http://localhost:5000/prices
+Content-Type: application/json
+
+{
+    "harga": 12000,
+    "provinsi": "Bali"
+}
+
+###
+PUT http://localhost:5000/prices/1
+Content-Type: application/json
+
+{
+    "harga": 11000,
+    "provinsi": "kalimantan2"
+}
