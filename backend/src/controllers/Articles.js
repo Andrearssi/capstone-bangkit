@@ -10,7 +10,10 @@ export const getArticles = async (req, res) => {
     const articles = await Articles.findAll({
       attributes: ['judul', 'author', 'content', 'image'],
     });
-    return res.json(articles);
+    return res.json({
+      msg: 'success',
+      data: articles,
+    });
   } catch (error) {
     return console.log(error);
   }
@@ -24,10 +27,13 @@ export const getArticlesById = async (req, res) => {
     });
     if (!article) {
       return res.status(400).json({
-        message: 'Article not found',
+        message: 'Artikel tidak ditemukan',
       });
     }
-    return res.json(article);
+    return res.json({
+      msg: 'success',
+      data: article,
+    });
   } catch (error) {
     return console.log(error);
   }
@@ -36,25 +42,27 @@ export const getArticlesById = async (req, res) => {
 export const createArticle = async (req, res) => {
   const schema = {
     judul: { type: 'string', min: 3, max: 255 },
-    penulis: { type: 'string', min: 3, max: 255 },
-    konten: { type: 'string', min: 3, max: 255 },
+    author: { type: 'string', min: 3, max: 255 },
+    content: { type: 'string', min: 3, max: 255 },
     image: { type: 'string', min: 3, max: 255 },
   };
   const validate = v.validate(req.body, schema);
   if (validate.length) {
     return res.status(400).json(validate);
   }
-
   const article = await Articles.create(req.body);
-  return res.status(201).json(article);
+  return res.status(201).json({
+    msg: 'success',
+    data: article,
+  });
 };
 
 export const updateArticle = async (req, res) => {
   const { id } = req.params;
 
-  const checkArticle = await Articles.findByPk(id);
+  const article = await Articles.findByPk(id);
 
-  if (!checkArticle) {
+  if (!article) {
     return res.status(400).json({
       message: 'Artikel tidak ditemukan',
     });
@@ -63,10 +71,10 @@ export const updateArticle = async (req, res) => {
     judul: {
       type: 'string', min: 3, max: 255, optional: true,
     },
-    penulis: {
+    author: {
       type: 'string', min: 3, max: 255, optional: true,
     },
-    konten: {
+    content: {
       type: 'string', min: 3, max: 255, optional: true,
     },
     image: {
@@ -77,8 +85,11 @@ export const updateArticle = async (req, res) => {
   if (validate.length) {
     return res.status(400).json(validate);
   }
-  const article = await checkArticle.update(req.body);
-  return res.json(article);
+  await article.update(req.body);
+  return res.json({
+    msg: 'success',
+    data: req.body,
+  });
 };
 
 export const deleteArticle = async (req, res) => {

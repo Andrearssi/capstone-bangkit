@@ -36,17 +36,14 @@ Content-Type: application/json
 }
 
 ###
-GET http://localhost:5000/articles/1
+GET http://localhost:5000/articles/2
 
 ###
-PUT http://localhost:5000/articles/3
+PUT http://localhost:5000/articles/2
 Content-Type: application/json
 
 {
-    "judul": "hahaha",
-    "author": "andrea",
-    "content": "blablablabla",
-    "image": "bla.png"
+    "judul": "kepo luh 2"
 }
 
 ###
