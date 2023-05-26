@@ -1,5 +1,5 @@
 GET http://localhost:5000/users
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjE0LCJuYW1lIjoiQW5kcmVhIiwiZW1haWwiOiJlbWFpbDFAZ21haWwuY29tIiwiaWF0IjoxNjg0OTAwNDQ1LCJleHAiOjE2ODQ5MDA0NjB9.AppE_XpDLb5xblopepXPqyVJ0hxQ4EWvU8ZDKxC76CY
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjE0LCJuYW1lIjoiQW5kcmVhIiwiZW1haWwiOiJlbWFpbDFAZ21haWwuY29tIiwiaWF0IjoxNjg1MDk3NTAzLCJleHAiOjE2ODUwOTc1MjN9.Bw0yzu8s_ZjKRCc06CFTL_cLCT7_end0WpLs5Rc3OB8
 ###
 POST http://localhost:5000/users
 Content-Type: application/json
@@ -17,7 +17,7 @@ POST http://localhost:5000/login
 Content-Type: application/json
 
 {
-    "email": "email1@gmail.com",
+    "email": "email@gmail.com",
     "password": "123456"
 }
 
@@ -29,17 +29,17 @@ POST http://localhost:5000/articles
 Content-Type: application/json
 
 {
-    "judul": "hahaha",
+    "judul": "hahaha3",
     "author": "andrea",
     "content": "blablablabla",
     "image": "bla.png"
 }
 
 ###
-GET http://localhost:5000/articles/2
+GET http://localhost:5000/articles/5
 
 ###
-PUT http://localhost:5000/articles/2
+PUT http://localhost:5000/articles/6
 Content-Type: application/json
 
 {
@@ -47,7 +47,7 @@ Content-Type: application/json
 }
 
 ###
-DELETE http://localhost:5000/articles/1
+DELETE http://localhost:5000/prices/3
 
 ###
 GET http://localhost:5000/prices
