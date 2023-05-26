@@ -2,6 +2,7 @@
 /* eslint-disable no-console */
 import Validator from 'fastest-validator';
 import Articles from '../models/ArticlesModel.js';
+import { errorResponse, successResponse } from '../config/Response.js';
 
 const v = new Validator();
 
@@ -10,12 +11,10 @@ export const getArticles = async (req, res) => {
     const articles = await Articles.findAll({
       attributes: ['judul', 'author', 'content', 'image'],
     });
-    return res.json({
-      msg: 'success',
-      data: articles,
-    });
+    return successResponse(res, articles);
   } catch (error) {
-    return console.log(error);
+    console.log(error);
+    return errorResponse(res);
   }
 };
 
@@ -26,16 +25,12 @@ export const getArticlesById = async (req, res) => {
       attributes: ['judul', 'author', 'content', 'image'],
     });
     if (!article) {
-      return res.status(400).json({
-        message: 'Artikel tidak ditemukan',
-      });
+      return errorResponse(res, 'Artikel tidak ditemukan', 404);
     }
-    return res.json({
-      msg: 'success',
-      data: article,
-    });
+    return successResponse(res, article);
   } catch (error) {
-    return console.log(error);
+    console.log(error);
+    return errorResponse(res);
   }
 };
 
@@ -48,13 +43,10 @@ export const createArticle = async (req, res) => {
   };
   const validate = v.validate(req.body, schema);
   if (validate.length) {
-    return res.status(400).json(validate);
+    return errorResponse(res, validate, 400);
   }
   const article = await Articles.create(req.body);
-  return res.status(201).json({
-    msg: 'success',
-    data: article,
-  });
+  return successResponse(res, article, 'success', 201);
 };
 
 export const updateArticle = async (req, res) => {
@@ -63,9 +55,7 @@ export const updateArticle = async (req, res) => {
   const article = await Articles.findByPk(id);
 
   if (!article) {
-    return res.status(400).json({
-      message: 'Artikel tidak ditemukan',
-    });
+    return errorResponse(res, 'Artikel tidak ditemukan', 404);
   }
   const schema = {
     judul: {
@@ -83,13 +73,10 @@ export const updateArticle = async (req, res) => {
   };
   const validate = v.validate(req.body, schema);
   if (validate.length) {
-    return res.status(400).json(validate);
+    return errorResponse(res, validate, 400);
   }
   await article.update(req.body);
-  return res.json({
-    msg: 'success',
-    data: req.body,
-  });
+  return successResponse(res, req.body, 'success', 201);
 };
 
 export const deleteArticle = async (req, res) => {
@@ -98,13 +85,9 @@ export const deleteArticle = async (req, res) => {
   const article = await Articles.findByPk(id);
 
   if (!article) {
-    return res.status(400).json({
-      message: 'Artikel tidak ditemukan',
-    });
+    return errorResponse(res, 'Artikel tidak ditemukan', 404);
   }
 
   await article.destroy();
-  return res.json({
-    msg: 'Artikel berhasil dihapus',
-  });
+  return successResponse(res);
 };

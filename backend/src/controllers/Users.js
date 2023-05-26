@@ -4,6 +4,7 @@ import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import * as dotenv from 'dotenv';
 import Users from '../models/UsersModel.js';
+import { errorResponse, successResponse } from '../config/Response.js';
 
 dotenv.config();
 
@@ -12,9 +13,10 @@ export const getUsers = async (req, res) => {
     const users = await Users.findAll({
       attributes: ['id', 'name', 'email'],
     });
-    return res.json(users);
+    return successResponse(res, users);
   } catch (error) {
-    return console.log(error);
+    console.log(error);
+    return errorResponse(res);
   }
 };
 
@@ -29,14 +31,10 @@ export const Register = async (req, res) => {
       },
     });
     if (existingUser) {
-      return res.status(400).json({
-        msg: `Email ${email} telah terdaftar`,
-      });
+      return errorResponse(res, `Email ${email} telah terdaftar`, 400);
     }
     if (password !== confPassword) {
-      return res.status(400).json({
-        msg: 'Password dan confirm Password tidak cocok',
-      });
+      return errorResponse(res, 'Password dan Confirm Password tidak cocok', 400);
     }
     const salt = await bcrypt.genSalt();
     const hashPassword = await bcrypt.hash(password, salt);
@@ -45,14 +43,10 @@ export const Register = async (req, res) => {
       email,
       password: hashPassword,
     });
-    return res.json({
-      msg: 'Register Berhasil',
-    });
+    return successResponse(res, null, 'Register Berhasil', 201);
   } catch (error) {
     console.log(error);
-    return res.status(500).json({
-      msg: 'Terjadi kesalahan saat melakukan registrasi',
-    });
+    return errorResponse(res);
   }
 };
 
@@ -67,9 +61,7 @@ export const Login = async (req, res) => {
     });
     const match = await bcrypt.compare(req.body.password, user[0].password);
     if (!match) {
-      return res.status(400).json({
-        msg: 'Wrong Password',
-      });
+      return errorResponse(res, 'Password salah', 400);
     }
     const userId = user[0].id;
     const { name } = user[0];
@@ -111,11 +103,10 @@ export const Login = async (req, res) => {
       maxAge: 24 * 60 * 60 * 1000,
       // jika menggunakan https secure: true,
     });
-    return res.json({ accessToken });
+    return successResponse(res, { accessToken });
   } catch (error) {
-    return res.status(404).json({
-      msg: 'Email tidak ditemukan',
-    });
+    console.log(error);
+    return errorResponse(res, `Email ${req.body.email} tidak ditemukan`, 404);
   }
 };
 

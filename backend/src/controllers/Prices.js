@@ -2,6 +2,7 @@
 /* eslint-disable no-console */
 import Validator from 'fastest-validator';
 import Prices from '../models/PricesModel.js';
+import { errorResponse, successResponse } from '../config/Response.js';
 
 const v = new Validator();
 
@@ -10,9 +11,10 @@ export const getPrices = async (req, res) => {
     const prices = await Prices.findAll({
       attributes: ['harga', 'provinsi'],
     });
-    return res.json(prices);
+    return successResponse(res, prices);
   } catch (error) {
-    return console.log(error);
+    console.log(error);
+    return errorResponse(res);
   }
 };
 
@@ -23,13 +25,12 @@ export const getPricesById = async (req, res) => {
       attributes: ['harga', 'provinsi'],
     });
     if (!price) {
-      return res.status(400).json({
-        message: 'Price not found',
-      });
+      return errorResponse(res, 'Price not found', 404);
     }
-    return res.json(price);
+    return successResponse(res, price);
   } catch (error) {
-    return console.log(error);
+    console.log(error);
+    return errorResponse(res);
   }
 };
 
@@ -40,19 +41,14 @@ export const createPrice = async (req, res) => {
   };
   const validate = v.validate(req.body, schema);
   if (validate.length) {
-    return res.status(400).json(validate);
+    return errorResponse(res, validate, 400);
   }
   try {
     await Prices.create(req.body);
-    return res.status(201).json({
-      msg: 'Create success',
-      data: req.body,
-    });
+    return successResponse(res, req.body, 'success', 201);
   } catch (error) {
-    return res.status(500).json({
-      msg: 'Server error',
-      serverMessage: error,
-    });
+    console.log(error);
+    return errorResponse(res);
   }
 };
 
@@ -62,9 +58,7 @@ export const updatePrice = async (req, res) => {
   const checkPrice = await Prices.findByPk(id);
 
   if (!checkPrice) {
-    return res.status(400).json({
-      message: 'Price not found',
-    });
+    return errorResponse(res, 'Price not found', 404);
   }
   const schema = {
     harga: {
@@ -76,13 +70,10 @@ export const updatePrice = async (req, res) => {
   };
   const validate = v.validate(req.body, schema);
   if (validate.length) {
-    return res.status(400).json(validate);
+    return errorResponse(res, validate, 400);
   }
   await checkPrice.update(req.body);
-  return res.status(200).json({
-    msg: 'Update success',
-    data: req.body,
-  });
+  return successResponse(res, req.body, 'success', 201);
 };
 
 export const deletePrice = async (req, res) => {
@@ -91,12 +82,8 @@ export const deletePrice = async (req, res) => {
   const price = await Prices.findByPk(id);
 
   if (!price) {
-    return res.status(400).json({
-      message: 'Price not found',
-    });
+    return errorResponse(res, 'Price not found', 404);
   }
   await price.destroy(id);
-  return res.status(200).json({
-    msg: 'Delete success',
-  });
+  return successResponse(res);
 };
