@@ -6,6 +6,7 @@ import cookieParser from "cookie-parser";
 import bodyParser from "body-parser";
 import fileUpload from "express-fileupload";
 import morgan from "morgan";
+import path from "path";
 import db from "./config/Database.js";
 import usersRouter from "./routes/Users.js";
 import articlesRouter from "./routes/Articles.js";
@@ -15,8 +16,8 @@ dotenv.config();
 
 const app = express();
 
-app.use(express.static("../public"));
-app.get("/", (_, res) => res.sendFile("../public/index.html"));
+app.use(express.static(path.join(__dirname, "../public")));
+app.get("/", (_, res) => res.sendFile(path.join(__dirname, "../public/index.html")));
 
 app.use(morgan("dev"));
 
