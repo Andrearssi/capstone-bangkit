@@ -1,4 +1,5 @@
 /* eslint-disable linebreak-style */
+/* eslint-disable no-underscore-dangle */
 /* eslint-disable no-console */
 import express from "express";
 import * as dotenv from "dotenv";
@@ -6,7 +7,8 @@ import cookieParser from "cookie-parser";
 import bodyParser from "body-parser";
 import fileUpload from "express-fileupload";
 import morgan from "morgan";
-import path from "path";
+import { fileURLToPath } from 'url';
+import path, { dirname } from 'path';
 import db from "./config/Database.js";
 import usersRouter from "./routes/Users.js";
 import articlesRouter from "./routes/Articles.js";
@@ -16,8 +18,11 @@ dotenv.config();
 
 const app = express();
 
-app.use(express.static(path.join(__dirname, "../public")));
-app.get("/", (_, res) => res.sendFile(path.join(__dirname, "../public/index.html")));
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+
+app.use(express.static(path.join(__dirname, '../public')));
+app.get('/', (_, res) => res.sendFile(path.join(__dirname, '../public/index.html')));
 
 app.use(morgan("dev"));
 
