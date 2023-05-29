@@ -29,8 +29,8 @@ jobs:
 
       - name: Manual Replace
         run: |
-          sed -i 's#ACCESS_TOKEN_SECRET=#ACCESS_TOKEN_SECRET=${{ secrets.ENV_ACCESS_TOKEN_SECRET }}#g' .env
-          sed -i 's#REFRESH_TOKEN_SECRET=#REFRESH_TOKEN_SECRET=${{ secrets.ENV_REFRESH_TOKEN_SECRET }}#g' .env
+          sed -i 's#ACCESS_TOKEN_SECRET=#ACCESS_TOKEN_SECRET=${{ secrets.ENV_ACCESS_TOKEN_SECRET }}#g' ./backend/.env
+          sed -i 's#REFRESH_TOKEN_SECRET=#REFRESH_TOKEN_SECRET=${{ secrets.ENV_REFRESH_TOKEN_SECRET }}#g' ./backend/.env
 
       # ----------------------------------------------------------------------
       # ----------------------------------------------------------------------

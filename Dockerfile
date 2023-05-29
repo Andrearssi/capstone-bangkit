@@ -1,5 +1,5 @@
 FROM node:18.2.0-buster-slim
-LABEL maintainer="Jefri Herdi Triyanto jefriherditriyanto@gmail.com"
+LABEL maintainer="Andrea Rossi andrearssi@gmail.com"
 
 # RUN apk add git
 # RUN git config --global url."https://".insteadOf git://
