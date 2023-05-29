@@ -4,7 +4,7 @@ import db from '../config/Database.js';
 
 const { DataTypes } = Sequelize;
 
-const Articles = db.define(
+export const Articles = db.define(
   'articles',
   {
     judul: {
@@ -19,9 +19,26 @@ const Articles = db.define(
       type: DataTypes.TEXT,
       allowNull: false,
     },
-    image: {
+  },
+  {
+    freezeTableName: true,
+  },
+);
+
+export const ArticleImages = db.define(
+  'article_images',
+  {
+    imagePath: {
       type: DataTypes.STRING,
       allowNull: false,
+    },
+    articleId: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      references: {
+        model: Articles,
+        key: 'id',
+      },
     },
   },
   {
@@ -29,4 +46,5 @@ const Articles = db.define(
   },
 );
 
-export default Articles;
+Articles.hasMany(ArticleImages, { foreignKey: 'articleId' });
+ArticleImages.belongsTo(Articles, { foreignKey: 'articleId' });
