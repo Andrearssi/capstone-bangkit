@@ -5,6 +5,7 @@ import * as dotenv from "dotenv";
 import cookieParser from "cookie-parser";
 import bodyParser from "body-parser";
 import fileUpload from "express-fileupload";
+import morgan from "morgan";
 import db from "./config/Database.js";
 import usersRouter from "./routes/Users.js";
 import articlesRouter from "./routes/Articles.js";
@@ -16,6 +17,8 @@ const app = express();
 
 app.use(express.static("../public"));
 app.get("/", (_, res) => res.sendFile("../public/index.html"));
+
+app.use(morgan("dev"));
 
 try {
   await db.authenticate();
