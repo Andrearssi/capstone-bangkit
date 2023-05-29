@@ -14,6 +14,9 @@ dotenv.config();
 
 const app = express();
 
+app.use(express.static("../public"));
+app.get("/", (_, res) => res.sendFile("../public/index.html"));
+
 try {
   await db.authenticate();
   console.log("Database Connected...");

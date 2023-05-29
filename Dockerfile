@@ -5,17 +5,17 @@ LABEL maintainer="Jefri Herdi Triyanto jefriherditriyanto@gmail.com"
 # RUN git config --global url."https://".insteadOf git://
 
 WORKDIR /app 
-COPY . .
+COPY ./backend .
+COPY ./frontend ./frontend
+RUN mkdir public
 
 # === BASIC ENVIRONMENT === #
 ENV CI_CD=true
 
-# 🌊 Install Dependencies
+# 🌊 Install Dependencies & ⚒️ Build
+RUN yarn install:fe
+RUN yarn build:fe
 RUN yarn install
-# RUN yarn install:fe
-
-# ⚒️ Build
-# RUN yarn build:fe
 
 # 💯 Last Configuration
 RUN sed -i 's/localhost/host.docker.internal/g' .env

@@ -5,6 +5,9 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
+    "install:fe": "cd frontend && yarn",
+    "build:fe": "cd frontend && yarn build",
+    "merge:fe": "cd frontend && yarn merge",
     "start": "node src/index.js",
     "start-dev": "nodemon src/index.js",
     "lint": "eslint ./src"
