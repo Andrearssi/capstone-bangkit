@@ -16,7 +16,7 @@ dotenv.config();
 const app = express();
 
 app.use(express.static("../public"));
-app.get("/", (_, res) => res.sendFile("../public/index.html"));
+app.get("/", (_, res) => res.sendFile("public/index.html"));
 
 app.use(morgan("dev"));
 
