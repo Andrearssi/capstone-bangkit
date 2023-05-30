@@ -9,7 +9,7 @@ const v = new Validator();
 export const getPrices = async (req, res) => {
   try {
     const prices = await Prices.findAll({
-      attributes: ["harga", "provinsi"],
+      attributes: ["id", "harga", "provinsi"],
     });
     return successResponse(res, prices);
   } catch (error) {
@@ -22,7 +22,7 @@ export const getPricesById = async (req, res) => {
   try {
     const { id } = req.params;
     const price = await Prices.findByPk(id, {
-      attributes: ["harga", "provinsi"],
+      attributes: ["id", "harga", "provinsi"],
     });
     if (!price) {
       return errorResponse(res, "Price not found", 404);
